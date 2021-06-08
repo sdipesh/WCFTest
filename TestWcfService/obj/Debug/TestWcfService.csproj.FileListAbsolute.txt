@@ -1,0 +1,7 @@
+C:\Dipesh\POC\WCF\TestWcfService\bin\TestWcfService.dll.config
+C:\Dipesh\POC\WCF\TestWcfService\bin\TestWcfService.dll
+C:\Dipesh\POC\WCF\TestWcfService\bin\TestWcfService.pdb
+C:\Dipesh\POC\WCF\TestWcfService\obj\Debug\TestWcfService.csproj.AssemblyReference.cache
+C:\Dipesh\POC\WCF\TestWcfService\obj\Debug\TestWcfService.csproj.CoreCompileInputs.cache
+C:\Dipesh\POC\WCF\TestWcfService\obj\Debug\TestWcfService.dll
+C:\Dipesh\POC\WCF\TestWcfService\obj\Debug\TestWcfService.pdb
