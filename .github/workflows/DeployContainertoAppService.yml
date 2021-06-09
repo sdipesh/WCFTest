@@ -33,8 +33,8 @@ jobs:
 
       - name: Build docker image
         run: |     
-          docker build RUNNER_ALLOW_RUNASROOT=1 -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }} ./TestWcfService
-          docker push RUNNER_ALLOW_RUNASROOT=1 cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
+          docker build -e RUNNER_ALLOW_RUNASROOT=1 -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }} ./TestWcfService
+          docker push -e RUNNER_ALLOW_RUNASROOT=1 cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
 
       - uses: azure/webapps-deploy@v2
         with:
