@@ -37,7 +37,7 @@ jobs:
 
       - name: Build docker image
         run: |     
-          docker build --file ./TestWcfService/Dockerfile -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
+          docker build -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }} ./TestWcfService
           docker push cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
 
       - uses: azure/webapps-deploy@v2
