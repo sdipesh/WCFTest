@@ -34,6 +34,7 @@ jobs:
       - name: Build docker image
         working-directory: ./WCFTest/TestWcfService
         run: |     
+          ls -R
           docker build . --t cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
           docker push cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
 
