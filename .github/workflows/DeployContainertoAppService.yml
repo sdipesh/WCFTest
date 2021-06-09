@@ -34,7 +34,7 @@ jobs:
       - uses: docker/build-push-action@v2
         with:
           context: .
-          file: /home/runner/work/WCFTest/TestWcfService/Dockerfile
+          file: ../WCFTest/TestWcfService/Dockerfile
           tags: cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
 
       - uses: azure/webapps-deploy@v2
