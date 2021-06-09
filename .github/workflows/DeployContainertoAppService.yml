@@ -31,9 +31,8 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - run: |         
-          cd ../WCFTest/TestWcfService
-          docker build . -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
+      - run: |     
+          docker build ../WCFTest/TestWcfService -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
           docker push cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
 
       - uses: azure/webapps-deploy@v2
