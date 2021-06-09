@@ -31,11 +31,10 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ../WCFTest/TestWcfService/Dockerfile
-          tags: cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
+      - run: |         
+          cd ../WCFTest/TestWcfService
+          docker build . -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
+          docker push cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
 
       - uses: azure/webapps-deploy@v2
         with:
