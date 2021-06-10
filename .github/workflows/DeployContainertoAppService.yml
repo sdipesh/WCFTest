@@ -25,6 +25,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
+      # Reload Path
+      - name: Reload path to use az commands
+        run: |
+          $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+      
       # Authenticate a Service Principal to deploy to your Web App
       - name: Azure Service Principal Authentication
         uses: azure/login@v1
