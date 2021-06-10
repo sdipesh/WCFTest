@@ -12,7 +12,7 @@ RUN nuget restore TestWcfService/packages.config -PackagesDirectory TestWcfServi
 # Add files from source to the current directory and publish the deployment files to the folder profile
 COPY . .
 WORKDIR /src/TestWcfService
-RUN msbuild TestWcfService.csproj /p:Configuration=Release /m /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+RUN msbuild TestWcfService.csproj /p:Configuration=Release /m /p:DeployOnBuild=true
 
 # Layer the production runtime image
 FROM mcr.microsoft.com/dotnet/framework/wcf:4.8-windowsservercore-ltsc2019 as deploy
