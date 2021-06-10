@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CICD
+name: Build and Deploy Windows Container App to Azure App Service
 
 # Controls when the action will run. 
 on:
@@ -25,19 +25,29 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      - uses: azure/docker-login@v1
+      # Authenticate a Service Principal to deploy to your Web App
+      - name: Azure Service Principal Authentication
+        uses: azure/login@v1
         with:
-          login-server: cacappmodacr.azurecr.io
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      # Use docker login to log into ACR 
+      - name: Docker login to ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_USERNAME }}.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Build docker image
+      # Build and push your image to Azure Container Registry 
+      - name: Build and Push container to ACR
         run: |     
-          docker build --file=TestWcfService/Dockerfile -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }} .
-          docker push cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
+          docker build --file=TestWcfService/Dockerfile -t ${{ secrets.REGISTRY_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME }}:${{ github.sha }} .
+          docker push ${{ secrets.REGISTRY_USERNAME }}.azurecr.io/${{ secrets.IMAGE_USERNAME }}:${{ github.sha }}
 
-      - uses: azure/webapps-deploy@v2
+      # Deploy your container to App Service 
+      - name: Deploy Container to Azure App Service
+        uses: azure/webapps-container-deploy@v1
         with:
-          app-name: 'cac-appmod-wcftest'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: 'cacappmodacr.azurecr.io/wcftest:${{ github.sha }}'
+          app-name: ${{ secrets.APP_NAME }}
+          images: ${{ secrets.REGISTRY_USERNAME }}.azurecr.io/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
