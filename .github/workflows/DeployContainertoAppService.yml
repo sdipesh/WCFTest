@@ -5,8 +5,8 @@ name: CICD
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
+  #push:
+    #branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -33,7 +33,7 @@ jobs:
 
       - name: Build docker image
         run: |     
-          docker build --build-arg "source=obj\Docker\empty" -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }} ./TestWcfService
+          docker build --file=TestWcfService/Dockerfile -t cacappmodacr.azurecr.io/wcftest:${{ github.sha }} .
           docker push cacappmodacr.azurecr.io/wcftest:${{ github.sha }}
 
       - uses: azure/webapps-deploy@v2
