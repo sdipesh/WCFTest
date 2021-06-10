@@ -5,13 +5,13 @@ FROM mcr.microsoft.com/dotnet/framework/sdk:4.8 as build
 WORKDIR "/src"
 
 # Copy packages to your image and restore them
-COPY WCFTest/TestWcfService/TestWcfService.csproj WCFTest/TestWcfService/TestWcfService.csproj
-COPY WCFTest/TestWcfService/packages.config WCFTest/TestWcfService/packages.config
-RUN nuget restore WCFTest/TestWcfService/packages.config -PackagesDirectory WCFTest/packages
+COPY TestWcfService/TestWcfService.csproj TestWcfService/TestWcfService.csproj
+COPY TestWcfService/packages.config TestWcfService/packages.config
+RUN nuget restore TestWcfService/packages.config -PackagesDirectory TestWcfService/packages
 
 # Add files from source to the current directory and publish the deployment files to the folder profile
 COPY . .
-WORKDIR /src/WCFTest/TestWcfService
+WORKDIR /src/TestWcfService
 RUN msbuild TestWcfService.csproj /p:Configuration=Release /m /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
 
 # Layer the production runtime image
@@ -19,7 +19,7 @@ FROM mcr.microsoft.com/dotnet/framework/wcf:4.8-windowsservercore-ltsc2019 as de
 
 # Add the publish files into the right directory
 WORKDIR /inetpub/wwwroot
-COPY --from=build /src/WCFTest/TestWcfService/bin/Release/Publish .
+COPY --from=build /src/TestWcfService/bin/Release/Publish .
 
 #FROM mcr.microsoft.com/dotnet/framework/wcf:4.8-windowsservercore-ltsc2019
 #ARG source
